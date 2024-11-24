@@ -15,6 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("tienda-app")
+@CrossOrigin(value = "http://localhost:3000")
 //@CrossOrigin(value = "http://localhost:3000")
 public class CategoriaControlador {
     private static final Logger looger =

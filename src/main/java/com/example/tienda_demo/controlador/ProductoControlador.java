@@ -16,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("tienda-app")
+@CrossOrigin(value = "http://localhost:3000")
 public class ProductoControlador {
     private static final Logger looger =
             LoggerFactory.getLogger(ProductoControlador.class);
