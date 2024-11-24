@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
 import {NumericFormat} from "react-number-format";
 export default function ListadoProductos(){
 
@@ -23,6 +22,7 @@ export default function ListadoProductos(){
         await axios.delete(`${urlBase}/${id}`);
         cargarProductos();
     }
+
     return (
         <div className="container">
             <div className="container text-center" style={{margin: "30px"}}>
@@ -58,6 +58,7 @@ export default function ListadoProductos(){
                             <td>{producto.stock}</td>
                             <td>{producto.estado}</td>
                             <td>{producto.idCategoria}</td>
+
                             <td className="text-center">
                                 <div>
                                     <button className="btn btn-warning btn-sm me-3">Editar</button>
