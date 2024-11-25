@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
-export default function (){
+export default function ListarCategorias(){
     const urlBase = "http://localhost:8080/tienda-app/categorias"
 
     const [categorias, setCategorias] = useState([]);
@@ -35,6 +35,7 @@ export default function (){
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
                     <th scope="col"></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

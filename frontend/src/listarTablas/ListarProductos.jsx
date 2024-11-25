@@ -1,59 +1,57 @@
 import React, {useEffect, useLayoutEffect, useState} from "react";
 import {NumericFormat} from "react-number-format";
-import {getCurrency} from "../plantilla/Utils";
 import axios from "axios";
 import {Link} from "react-router-dom";
-const Products = () => {
-    const urlBase2 = "http://localhost:8080/tienda-app/categorias"
+
+const Productos = ()=> {
     const urlBase = "http://localhost:8080/tienda-app/productos"
+    const urlBase2 = "http://localhost:8080/tienda-app/categorias"
     const [productos, setProductos] = useState([]);
     const [categorias, setCategorias] = useState(new Map());
-
-
-    useEffect(() => {
-        cargarProductos();
-    }, []);
-    const cargarProductos = async ()=>{
-        const resultado = await axios.get(urlBase);
-        console.log("Cargar resultado productos");
-        console.log(resultado.data);
-        setProductos(resultado.data);
-    }
-    const eliminarProductos = async (id)=> {
-        await axios.delete(`${urlBase}/{id}`);
-        cargarProductos();
-    }
 
     const add = (key, value) =>{
         setCategorias(prev =>new Map([...prev, [key, value]]))
     }
 
     useLayoutEffect(()=>{
-        const obtenerProductos = async ()=>{
-            const res = await fetch(urlBase);
-            const productos = await res.json()
-            setProductos(productos);
-        }
-        const obtenerCategorias = async ()=>{
-            const res = await fetch(urlBase2);
-            const categorias = await res.json();
-            categorias.map(categoria =>{
-                const {
-                    idCategoria,
-                    descripcion,
-                    estado
-                } = categoria;
-                add(idCategoria, categoria)
+            const obtenerProductos = async ()=>{
+                const res = await fetch(urlBase);
+                const productos = await res.json()
+                setProductos(productos);
+            }
+            const obtenerCategorias = async ()=>{
+                const res = await fetch(urlBase2);
+                const categorias = await res.json();
+                categorias.map(categoria =>{
+                    const {
+                        idCategoria
+                    } = categoria;
+                    add(idCategoria, categoria)
+                })
+            }
+            obtenerProductos().catch(e =>{
+                console.log("Error al obtener productos");
             })
-        }
-        obtenerProductos().catch(e =>{
-            console.log("Error al obtener productos");
-        })
-        obtenerCategorias().catch(e=>{
-            console.log("Error al obtener categoria" + e);
-        })
-    }, []
+            obtenerCategorias().catch(e=>{
+                console.log("Error al obtener categoria" + e);
+            })
+        }, []
     )
+    //=====================================================================================================================
+    const urlProducto = "http://localhost:8080/tienda-app/productos"
+    const [products, setProducts] = useState([]);
+    useEffect( ()=>{
+        cargarProducts();
+    }, []);
+    const cargarProducts = async ()=>{
+        const resultado = await axios.get(urlProducto);
+        console.log(resultado.data);
+        setProducts(resultado.data);
+    }
+    const eliminarProducto = async (id) =>{
+        await axios.delete(`${urlProducto}/{id}`);
+        cargarProducts();
+    }
     return (
         <div className="container">
             <div className="container text-center" style={{margin: "30px"}}>
@@ -84,6 +82,7 @@ const Products = () => {
                             estado,
                             idCategoria
                         } = producto;
+                        const categoria = categorias.get(idCategoria);
                         return (
                             <tr key={producto}>
                                 <td>{idProducto}</td>
@@ -96,15 +95,13 @@ const Products = () => {
                                                    fixedDecimalScale/></td>
                                 <td>{stock}</td>
                                 <td>{estado}</td>
-                                <td>{categorias.get(idCategoria).descripcion}</td>
+                                <td>{categoria ? categoria.descripcion: "Sin categoria"}</td>
                                 <td>
                                     <div>
                                         <Link to={`/editar-producto/${producto.idProducto}`}
                                               className="btn btn-warning btn-sm me-3">Editar</Link>
-                                        <button onClick={() => eliminarProductos(producto.idProducto)}
-                                                className="btn btn-danger btn-sm">Eliminar
-                                        </button>
-
+                                        <button onClick={()=> eliminarProducto(producto.idProducto)}
+                                            className="btn btn-danger btn-sm">Eliminar</button>
                                     </div>
                                 </td>
                             </tr>
@@ -116,4 +113,4 @@ const Products = () => {
         </div>
     )
 }
-export default Products;
+export default Productos;

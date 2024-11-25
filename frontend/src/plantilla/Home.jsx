@@ -1,12 +1,11 @@
 import React from 'react';
-import ListadoCategorias from "../listarTablas/ListadoCategorias";
-import ListadoProductos from "../listarTablas/ListadoProductos";
-import ListadoProductosFull from "../listarTablas/ListadoProductosFull";
+import ListarProductos from "../listarTablas/ListarProductos";
+import ListarCategorias from "../listarTablas/ListarCategorias";
 export default function Home(){
     return(
         <div className="container">
-            <ListadoCategorias />
-            <ListadoProductosFull />
+            <ListarCategorias />
+            <ListarProductos />
         </div>
     )
 }

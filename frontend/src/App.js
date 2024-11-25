@@ -15,7 +15,7 @@ function App() {
               <Route exact path="/" element={<Home/>}/>
               <Route exact path="/editar-categoria/:id" element={<EditarCategorias/>} />
               <Route exact path="/agregar-categorias" element={<AgregarCategoria/>} />
-              <Route exact path="/editar-producto/:id" element={<EditarProductos />}/>
+              <Route exact path="/editar-producto/:id" element={<EditarProductos/>} />
           </Routes>
       </BrowserRouter>
     </div>

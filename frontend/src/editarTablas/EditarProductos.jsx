@@ -14,22 +14,22 @@ export default function EditarProductos(){
         estado:"",
         idCategoria:""
     });
-   const {descripcion, precio, stock, estado, idCategoria} = producto;
-   const onInputChange = (e)=>{
-       setProducto({...producto, [e.target.name]: e.target.value});
-   }
-   useEffect( ()=>{
-       cargarProducto();
-   },[])
-   const cargarProducto = async ()=>{
-       const resultado = await axios.get(`${urlBase}/${id}`)
-       setProducto(resultado.data);
-   }
-   const onSubmit = async (e)=>{
-       e.preventDefault();
-       await axios.put(`${urlBase}/${id}`, producto);
-       navegacion("/");
-   }
+    const {descripcion, precio, stock, estado, idCategoria} = producto;
+    const onInputChange = (e)=>{
+        setProducto({...producto, [e.target.name]: e.target.value});
+    }
+    useEffect( ()=>{
+        cargarProducto();
+    },[])
+    const cargarProducto = async ()=>{
+        const resultado = await axios.get(`${urlBase}/${id}`)
+        setProducto(resultado.data);
+    }
+    const onSubmit = async (e)=>{
+        e.preventDefault();
+        await axios.put(`${urlBase}/${id}`, producto);
+        navegacion("/");
+    }
     return(
         <div className="container">
             <div className="container text-center" style={{margin: '30px'}}>
@@ -50,7 +50,7 @@ export default function EditarProductos(){
                 </div>
                 <div className="mb-3">
                     <label htmlFor="stock" className="form-label">Stock</label>
-                    <input type="text" className="form-control" id="stock"
+                    <input type="number" className="form-control" id="stock"
                            name="stock"
                            value={stock} onChange={(e) => onInputChange(e)}/>
                 </div>
@@ -60,8 +60,12 @@ export default function EditarProductos(){
                            name="estado"
                            value={estado} onChange={(e) => onInputChange(e)}/>
                 </div>
-
-
+                <div className="mb-3">
+                    <label htmlFor="idCategoria" className="form-label">Categoria</label>
+                    <input type="text" className="form-control" id="idCategoria"
+                           name="idCategoria" disabled="color: #6c757d; cursor: not-allowed;"
+                           value={idCategoria} onChange={(e) => onInputChange(e)}/>
+                </div>
                 <div className="text-center">
                     <button type="submit" className="btn btn-warning btn-sm me-3">Guardar</button>
                     <a href="/" className="btn btn-danger btn-sm">Regresar</a>
