@@ -1,11 +1,28 @@
-import React, {useLayoutEffect, useState} from "react";
+import React, {useEffect, useLayoutEffect, useState} from "react";
 import {NumericFormat} from "react-number-format";
 import {getCurrency} from "../plantilla/Utils";
+import axios from "axios";
+import {Link} from "react-router-dom";
 const Products = () => {
     const urlBase2 = "http://localhost:8080/tienda-app/categorias"
     const urlBase = "http://localhost:8080/tienda-app/productos"
     const [productos, setProductos] = useState([]);
     const [categorias, setCategorias] = useState(new Map());
+
+
+    useEffect(() => {
+        cargarProductos();
+    }, []);
+    const cargarProductos = async ()=>{
+        const resultado = await axios.get(urlBase);
+        console.log("Cargar resultado productos");
+        console.log(resultado.data);
+        setProductos(resultado.data);
+    }
+    const eliminarProductos = async (id)=> {
+        await axios.delete(`${urlBase}/{id}`);
+        cargarProductos();
+    }
 
     const add = (key, value) =>{
         setCategorias(prev =>new Map([...prev, [key, value]]))
@@ -80,7 +97,16 @@ const Products = () => {
                                 <td>{stock}</td>
                                 <td>{estado}</td>
                                 <td>{categorias.get(idCategoria).descripcion}</td>
+                                <td>
+                                    <div>
+                                        <Link to={`/editar-producto/${producto.idProducto}`}
+                                              className="btn btn-warning btn-sm me-3">Editar</Link>
+                                        <button onClick={() => eliminarProductos(producto.idProducto)}
+                                                className="btn btn-danger btn-sm">Eliminar
+                                        </button>
 
+                                    </div>
+                                </td>
                             </tr>
                         )
                     })
